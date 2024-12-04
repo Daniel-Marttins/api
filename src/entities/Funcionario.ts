@@ -1,6 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { STATUS } from "../types/Default";
+import { REGRA_USUARIO, STATUS } from "../types/Default";
 import { Empresa } from "./Empresa";
+import { FeriadoAusencia } from "./FeriadoAusencia";
+import { HoraExtra } from "./HoraExtra";
+import { Profissao } from "./Profissao";
 import { RegistroPonto } from "./RegistroPonto";
 import { Tenant } from "./Tenant";
 
@@ -23,6 +26,14 @@ export class Funcionario {
         nullable: false
     })
     status!: STATUS;
+
+    @Column({
+        type: 'enum',
+        enum: REGRA_USUARIO,
+        default: REGRA_USUARIO.FUNCIONARIO,
+        nullable: false
+    })
+    regra!: REGRA_USUARIO;
 
     @Column({ type: "varchar", length: "150", nullable: false })
     email!: string;
@@ -60,12 +71,22 @@ export class Funcionario {
     @OneToMany(() => RegistroPonto, registro => registro.funcionarioId)
     registropontos: RegistroPonto[];
 
+    @OneToMany(() => HoraExtra, extras => extras.funcionarioId)
+    horasExtras: HoraExtra[];
+
+    @OneToMany(() => FeriadoAusencia, ausencia => ausencia.funcionarioId)
+    feriadoAusencias: FeriadoAusencia[];
+
     // RELACIONAMENTOS
+    @ManyToOne(() => Profissao, { nullable: false })
+    @JoinColumn({ name: "profissaoId" })
+    profissaoId!: Profissao;
+
     @ManyToOne(() => Tenant, { nullable: false })
     @JoinColumn({ name: "tenantId" })
     tenantId!: Tenant;
 
-    @ManyToOne(() => Empresa, empresa => empresa.funcionario, { nullable: false })
+    @ManyToOne(() => Empresa, empresa => empresa.funcionarios, { nullable: false })
     @JoinColumn({ name: "empresaId" })
     empresaId!: Empresa;
 

@@ -51,13 +51,13 @@ export class Empresa {
     @Column({ type: "timestamp", nullable: true })
     dataAtualizacao?: Date;
 
+    // RELACIONAMENTOS
     @OneToMany(() => Funcionario, funcionario => funcionario.empresaId)
-    funcionario: Funcionario[];
+    funcionarios: Funcionario[];
 
     @OneToMany(() => RegistroPonto, registro => registro.empresaId)
     registrosPontos: RegistroPonto[];
 
-    // RELACIONAMENTOS
     @ManyToOne(() => Tenant, { nullable: false })
     @JoinColumn({ name: "tenantId" })
     tenantId!: Tenant;
