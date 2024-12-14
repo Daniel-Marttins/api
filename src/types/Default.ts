@@ -3,6 +3,12 @@ export enum STATUS {
     INATIVO = 'I',
 }
 
+export enum STATUS_FINANCEIRO {
+    REGULAR = 'R',
+    EM_DEBITO = 'E',
+    CANCELADO = 'C',
+}
+
 export enum REGRA_USUARIO {
     ADMINISTRADOR = 'ADM',
     FUNCIONARIO = 'FUN',

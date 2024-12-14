@@ -1,37 +1,38 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TIPO_BENEFICIO, TIPO_DESCONTO } from "../types/Default";
-import { Empresa } from "./Empresa";
-import { Tenant } from "./Tenant";
+import { TENANT } from "./TENANT";
+import { EMPRESA } from './EMPRESA';
 
-@Entity('descontos')
-export class Desconto {
+@Entity('DESCONTOS')
+export class DESCONTO {
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @PrimaryGeneratedColumn({ name: "ID" })
+    ID!: number;
 
     @Column({
+        name: "TIPO",
         type: 'enum',
         enum: TIPO_BENEFICIO,
         default: TIPO_BENEFICIO.OUTROS,
         nullable: false
     })
-    tipo!: TIPO_DESCONTO;
+    TIPO!: TIPO_DESCONTO;
 
-    @Column({ type: "varchar", length: "150", nullable: true })
-    descricao?: string;
+    @Column({ name: "DESCRICAO", type: "varchar", length: "150", nullable: true })
+    DESCRICAO?: string;
 
-    @Column({ type: "boolean", nullable: false, default: false })
-    alteraSalario!: boolean;
+    @Column({ name: "ALTERAR_SALARIO", type: "boolean", nullable: false, default: false })
+    ALTERAR_SALARIO!: boolean;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false })
-    valor!: number;
+    @Column({ name: "VALOR", type: "decimal", precision: 10, scale: 2, nullable: false })
+    VALOR!: number;
 
     // RELACIONAMENTOS
-    @ManyToOne(() => Empresa, { nullable: false })
-    @JoinColumn({ name: "empresaId" })
-    empresaId!: Empresa;
+    @ManyToOne(() => EMPRESA, { nullable: false })
+    @JoinColumn({ name: "EMPRESA_ID" })
+    EMPRESA_ID!: EMPRESA;
 
-    @ManyToOne(() => Tenant, { nullable: false })
-    @JoinColumn({ name: "tenantId" })
-    tenantId!: Tenant;
+    @ManyToOne(() => TENANT, { nullable: false })
+    @JoinColumn({ name: "TENANT_ID" })
+    TENANT_ID!: TENANT;
 }

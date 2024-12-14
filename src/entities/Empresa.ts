@@ -1,65 +1,66 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { STATUS } from "../types/Default";
-import { Funcionario } from "./Funcionario";
-import { RegistroPonto } from "./RegistroPonto";
-import { Tenant } from "./Tenant";
+import { FUNCIONARIO } from "./FUNCIONARIO";
+import { REGISTRO_PRONTO } from "./REGISTRO_PRONTO";
+import { TENANT } from "./TENANT";
 
-@Entity('empresas')
-export class Empresa {
+@Entity('EMPRESAS')
+export class EMPRESA {
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @PrimaryGeneratedColumn({ name: "ID" })
+    ID!: number;
 
-    @Column({ type: "varchar", length: "150", nullable: false })
-    nomeFantasia!: string;
+    @Column({ name: "NOME_FANTASIA", type: "varchar", length: "150", nullable: false })
+    NOME_FANTASIA!: string;
 
-    @Column({ type: "varchar", length: "150", nullable: false })
-    razaoSocial!: string;
+    @Column({ name: "RAZAO_SOCIAL", type: "varchar", length: "150", nullable: false })
+    RAZAO_SOCIAL!: string;
 
-    @Column({ type: "varchar", length: "20", nullable: false })
-    cnpj!: string;
+    @Column({ name: "CNPJ", type: "varchar", length: "20", nullable: false })
+    CNPJ!: string;
 
     @Column({
+        name: "STATUS", 
         type: 'enum',
         enum: STATUS,
         default: STATUS.ATIVO,
         nullable: false
     })
-    status!: STATUS;
+    STATUS!: STATUS;
 
-    @Column({ type: "varchar", length: "150", nullable: true })
-    endereco?: string;
+    @Column({ name: "ENDERECO", type: "varchar", length: "150", nullable: true })
+    ENDERECO?: string;
 
-    @Column({ type: "varchar", length: "100", nullable: true })
-    cidade?: string;
+    @Column({ name: "CIDADE", type: "varchar", length: "100", nullable: true })
+    CIDADE?: string;
 
-    @Column({ type: "varchar", length: "2", nullable: true })
-    estado?: string;
+    @Column({ name: "ESTADO", type: "varchar", length: "2", nullable: true })
+    ESTADO?: string;
 
-    @Column({ type: "varchar", length: "20", nullable: true })
-    celular?: string;
+    @Column({ name: "CELULAR", type: "varchar", length: "20", nullable: true })
+    CELULAR?: string;
 
-    @Column({ type: "varchar", length: "100", nullable: true })
-    email?: string;
+    @Column({ name: "EMAIL", type: "varchar", length: "100", nullable: true })
+    EMAIL?: string;
 
-    @Column({ type: "text", nullable: true })
-    logo?: string;
+    @Column({ name: "LOGO", type: "text", nullable: true })
+    LOGO?: string;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    dataCriacao!: Date;
+    @Column({ name: "DATA_CRIACAO", type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    DATA_CRIACAO!: Date;
 
-    @Column({ type: "timestamp", nullable: true })
-    dataAtualizacao?: Date;
+    @Column({ name: "DATA_ATUALIZACAO", type: "timestamp", nullable: true })
+    DATA_ATUALIZACAO?: Date;
 
     // RELACIONAMENTOS
-    @OneToMany(() => Funcionario, funcionario => funcionario.empresaId)
-    funcionarios: Funcionario[];
+    @OneToMany(() => FUNCIONARIO, FUNCIONARIO => FUNCIONARIO.EMPRESA_ID)
+    FUNCIONARIOS: FUNCIONARIO[];
 
-    @OneToMany(() => RegistroPonto, registro => registro.empresaId)
-    registrosPontos: RegistroPonto[];
+    @OneToMany(() => REGISTRO_PRONTO, REGISTRO => REGISTRO.EMPRESA_ID)
+    REGISTRO_PRONTOS: REGISTRO_PRONTO[];
 
-    @ManyToOne(() => Tenant, { nullable: false })
-    @JoinColumn({ name: "tenantId" })
-    tenantId!: Tenant;
+    @ManyToOne(() => TENANT, { nullable: false })
+    @JoinColumn({ name: "TENANT_ID" })
+    TENANT_ID!: TENANT;
 
 }

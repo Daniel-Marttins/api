@@ -1,36 +1,55 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { STATUS, STATUS_FINANCEIRO } from '../types/Default';
 
-@Entity('tenants')
-export class Tenant {
+@Entity('TENANTS')
+export class TENANT {
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @PrimaryGeneratedColumn({ name: "ID" })
+    ID!: number;
 
-    @Column({ type: "varchar", length: "150", nullable: false })
-    razao!: string;
+    @Column({ name: "CONTRATO", type: "varchar", length: 10, nullable: false })
+    CONTRATO!: string;
 
-    @Column({ type: "varchar", length: "20", nullable: false })
-    cpfCnpj!: string;
+    @Column({
+        name: "STATUS",
+        type: 'enum',
+        enum: STATUS,
+        default: STATUS.ATIVO,
+        nullable: false
+    })
+    STATUS!: STATUS;
 
-    @Column({ type: "varchar", length: "150", nullable: false })
-    email!: string;
+    @Column({
+        name: "STATUS",
+        type: 'enum',
+        enum: STATUS_FINANCEIRO,
+        default: STATUS_FINANCEIRO.REGULAR,
+        nullable: false
+    })
+    STATUS_FINANCEIRO!: STATUS_FINANCEIRO;
 
-    @Column({ type: "varchar", length: "100", nullable: false })
-    senha!: string;
+    @Column({ name: "RAZAO", type: "varchar", length: "150", nullable: false })
+    RAZAO!: string;
 
-    @Column({ type: "varchar", length: "200", nullable: true })
-    endereco?: string;
-    
-    @Column({ type: "varchar", length: "100", nullable: true })
-    cidade?: string;
+    @Column({ name: "CPFCNPJ", type: "varchar", length: "20", nullable: false })
+    CPFCNPJ!: string;
 
-    @Column({ type: "varchar", length: "2", nullable: true })
-    estado?: string;
+    @Column({ name: "EMAIL", type: "varchar", length: "150", nullable: false })
+    EMAIL!: string;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    dataCriacao!: Date;
+    @Column({ name: "ENDERECO", type: "varchar", length: "200", nullable: true })
+    ENDERECO?: string;
 
-    @Column({ type: "timestamp", nullable: true })
-    dataAtualizacao?: Date;
+    @Column({ name: "CIDADE", type: "varchar", length: "100", nullable: true })
+    CIDADE?: string;
+
+    @Column({ name: "ESTADO", type: "varchar", length: "2", nullable: true })
+    ESTADO?: string;
+
+    @Column({ name: "DATA_CRIACAO", type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    DATA_CRIACAO!: Date;
+
+    @Column({ name: "DATA_ATUALIZACAO", type: "timestamp", nullable: true })
+    DATA_ATUALIZACAO?: Date;
 
 }

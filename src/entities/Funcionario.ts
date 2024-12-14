@@ -1,93 +1,92 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { REGRA_USUARIO, STATUS } from "../types/Default";
-import { Empresa } from "./Empresa";
-import { FeriadoAusencia } from "./FeriadoAusencia";
-import { HoraExtra } from "./HoraExtra";
-import { Profissao } from "./Profissao";
-import { RegistroPonto } from "./RegistroPonto";
-import { Tenant } from "./Tenant";
+import { EMPRESA } from "./EMPRESA";
+import { FERIADO_AUSENCIA } from "./FERIADO_AUSENCIA";
+import { HORA_EXTRA } from "./HORA_EXTRA";
+import { PROFISSAO } from "./PROFISSAO";
+import { REGISTRO_PRONTO } from "./REGISTRO_PRONTO";
+import { TENANT } from "./TENANT";
 
-@Entity('funcionarios')
-export class Funcionario {
+@Entity('FUNCIONARIOS')
+export class FUNCIONARIO {
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @PrimaryGeneratedColumn({ name: "ID" })
+    ID!: number;
 
-    @Column({ type: "varchar", length: "150", nullable: false })
-    nome!: string;
+    @Column({ name: "NOME", type: "varchar", length: "150", nullable: false })
+    NOME!: string;
 
-    @Column({ type: "varchar", length: "20", nullable: false })
-    cpf!: string;
+    @Column({ name: "CPF", type: "varchar", length: "20", nullable: false })
+    CPF!: string;
 
     @Column({
+        name: "STATUS",
         type: 'enum',
         enum: STATUS,
         default: STATUS.ATIVO,
         nullable: false
     })
-    status!: STATUS;
+    STATUS!: STATUS;
 
     @Column({
+        name: "REGRA",
         type: 'enum',
         enum: REGRA_USUARIO,
         default: REGRA_USUARIO.FUNCIONARIO,
         nullable: false
     })
-    regra!: REGRA_USUARIO;
+    REGRA!: REGRA_USUARIO;
 
-    @Column({ type: "varchar", length: "150", nullable: false })
-    email!: string;
+    @Column({ name: "EMAIL", type: "varchar", length: "150", nullable: false })
+    EMAIL!: string;
 
-    @Column({ type: "varchar", length: "100", nullable: false })
-    senha!: string;
+    @Column({ name: "SENHA", type: "varchar", length: "100", nullable: false })
+    SENHA!: string;
 
-    @Column({ type: "varchar", length: "200", nullable: false })
-    endereco!: string;
+    @Column({ name: "ENDERECO", type: "varchar", length: "200", nullable: false })
+    ENDERECO!: string;
 
-    @Column({ type: "varchar", length: "20", nullable: false })
-    telefone!: string;
+    @Column({ name: "TELEFONE", type: "varchar", length: "20", nullable: false })
+    TELEFONE!: string;
 
-    @Column({ type: "varchar", length: "1", nullable: false })
-    sexo!: string;
+    @Column({ name: "SEXO", type: "varchar", length: "1", nullable: false })
+    SEXO!: string;
 
-    @Column({ type: "varchar", length: "1", nullable: false })
-    estadoCivil!: string;
+    @Column({ name: "ESTADO_CIVIL", type: "varchar", length: "1", nullable: false })
+    ESTADO_CIVIL!: string;
 
-    @Column({ type: "varchar", length: "100", nullable: false })
-    cargo!: string;
+    @Column({ name: "DATA_ADMISSAO", type: "timestamp", nullable: true })
+    DATA_ADMISSAO!: Date;
 
-    @Column({ type: "timestamp", nullable: true })
-    dataAdmissao!: Date;
+    @Column({ name: "DATA_NASCIMENTO", type: "timestamp", nullable: true })
+    DATA_NASCIMENTO!: Date;
 
-    @Column({ type: "timestamp", nullable: true })
-    dataNascimento!: Date;
+    @Column({ name: "DATA_CRIACAO", type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    DATA_CRIACAO!: Date;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    dataCriacao!: Date;
+    @Column({ name: "DATA_ATUALIZACAO", type: "timestamp", nullable: true })
+    DATA_ATUALIZACAO?: Date;
 
-    @Column({ type: "timestamp", nullable: true })
-    dataAtualizacao?: Date;
+    @OneToMany(() => REGISTRO_PRONTO, REGISTRO => REGISTRO.FUNCIONARIO_ID)
+    REGISTRO_PONTOS: REGISTRO_PRONTO[];
 
-    @OneToMany(() => RegistroPonto, registro => registro.funcionarioId)
-    registropontos: RegistroPonto[];
+    @OneToMany(() => HORA_EXTRA, EXTRAS => EXTRAS.FUNCIONARIO_ID)
+    HORA_EXTRAS: HORA_EXTRA[];
 
-    @OneToMany(() => HoraExtra, extras => extras.funcionarioId)
-    horasExtras: HoraExtra[];
-
-    @OneToMany(() => FeriadoAusencia, ausencia => ausencia.funcionarioId)
-    feriadoAusencias: FeriadoAusencia[];
+    @OneToMany(() => FERIADO_AUSENCIA, AUSENCIA => AUSENCIA.FUNCIONARIO_ID)
+    FERIADO_AUSENCIAS: FERIADO_AUSENCIA[];
 
     // RELACIONAMENTOS
-    @ManyToOne(() => Profissao, { nullable: false })
-    @JoinColumn({ name: "profissaoId" })
-    profissaoId!: Profissao;
+    @ManyToOne(() => PROFISSAO, { nullable: false })
+    @JoinColumn({ name: "PROFISSAO_ID" })
+    PROFISSAO_ID!: PROFISSAO;
 
-    @ManyToOne(() => Tenant, { nullable: false })
-    @JoinColumn({ name: "tenantId" })
-    tenantId!: Tenant;
+    @ManyToOne(() => TENANT, { nullable: false })
+    @JoinColumn({ name: "TENANT_ID" })
+    TENANT_ID!: TENANT;
 
-    @ManyToOne(() => Empresa, empresa => empresa.funcionarios, { nullable: false })
-    @JoinColumn({ name: "empresaId" })
-    empresaId!: Empresa;
+    @ManyToOne(() => EMPRESA, EMPRESA => EMPRESA.FUNCIONARIOS, { nullable: false })
+    @JoinColumn({ name: "EMPRESA_ID" })
+    EMPRESA_ID!: EMPRESA;
 
 }

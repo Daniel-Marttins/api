@@ -1,55 +1,55 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Empresa } from "./Empresa";
-import { JornadaTrabalho } from "./JornadaTrabalho";
-import { Tenant } from "./Tenant";
+import { EMPRESA } from "./EMPRESA";
+import { JORNADA_TRABALHO } from "./JORNADA_TRABALHO";
+import { TENANT } from "./TENANT";
 
-@Entity('profissoes')
-export class Profissao {
+@Entity('PROFISSOES')
+export class PROFISSAO {
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @PrimaryGeneratedColumn({ name: "ID" })
+    ID!: number;
 
-    @Column({ type: "varchar", length: "100", nullable: false })
-    nome!: string;
+    @Column({ name: "NOME", type: "varchar", length: "100", nullable: false })
+    NOME!: string;
 
-    @Column({ type: "text", nullable: true })
-    descricao?: string;
+    @Column({ name: "DESCRICAO", type: "text", nullable: true })
+    DESCRICAO?: string;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
-    salarioBase!: number;
+    @Column({ name: "SALARIO_BASE", type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
+    SALARIO_BASE!: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
-    totalBeneficios!: number;
+    @Column({ name: "TOTAL_BENEFICIOS", type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
+    TOTAL_BENEFICIOS!: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
-    totalDescontos!: number;
+    @Column({ name: "TOTAL_DESCONTOS", type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
+    TOTAL_DESCONTOS!: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
-    adicionalPadrao!: number;
+    @Column({ name: "ADICIONAL_PADRAO", type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
+    ADICIONAL_PADRAO!: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
-    adicionalNoturno!: number;
+    @Column({ name: "ADICIONAL_NOTURNO", type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
+    ADICIONAL_NOTURNO!: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
-    valorHoraExtra!: number;
+    @Column({ name: "VALOR_HORA_EXTRA", type: "decimal", precision: 10, scale: 2, nullable: false, default: 0 })
+    VALOR_HORA_EXTRA!: number;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    dataCriacao!: Date;
+    @Column({ name: "DATA_CRIACAO", type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    DATA_CRIACAO!: Date;
 
-    @Column({ type: "timestamp", nullable: true })
-    dataAtualizacao?: Date;
+    @Column({ name: "DATA_ATUALIZACAO",type: "timestamp", nullable: true })
+    DATA_ATUALIZACAO?: Date;
 
     // RELACIONAMENTOS
-    @ManyToOne(() => JornadaTrabalho, { nullable: false })
-    @JoinColumn({ name: "jornadaId" })
-    jornadaId!: JornadaTrabalho;
+    @ManyToOne(() => JORNADA_TRABALHO, { nullable: false })
+    @JoinColumn({ name: "JORNADA_ID" })
+    JORNADA_ID!: JORNADA_TRABALHO;
 
-    @ManyToOne(() => Empresa, { nullable: false })
-    @JoinColumn({ name: "empresaId" })
-    empresaId!: Empresa;
+    @ManyToOne(() => EMPRESA, { nullable: false })
+    @JoinColumn({ name: "EMPRESA_ID" })
+    EMPRESA_ID!: EMPRESA;
 
-    @ManyToOne(() => Tenant, { nullable: false })
-    @JoinColumn({ name: "tenantId" })
-    tenantId!: Tenant;
+    @ManyToOne(() => TENANT, { nullable: false })
+    @JoinColumn({ name: "TENANT_ID" })
+    TENANT_ID!: TENANT;
 
 }
